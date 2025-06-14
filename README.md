@@ -2,7 +2,7 @@
 Google ADK Hackathon (Jun-2025)
 
 # Project Structure
-/ai-stock-analyst
+``/ai-stock-analyst
 ├── agents/
 │   ├── news_agent.py        # News scraping/summarization
 │   ├── trends_agent.py      # Technical analysis
@@ -22,4 +22,4 @@ Google ADK Hackathon (Jun-2025)
 │   ├── ARCHITECTURE.md      # System diagram explanation
 │   └── SETUP.md            # Installation instructions
 └── requirements.txt         # Python dependencies
-undefined
+undefined``
