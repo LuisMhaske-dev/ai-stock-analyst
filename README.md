@@ -2,7 +2,6 @@
 Google ADK Hackathon (Jun-2025)
 
 # Project Structure
-``
 /ai-stock-analyst  
 
 ├── agents/  
@@ -41,4 +40,4 @@ Google ADK Hackathon (Jun-2025)
 
 │ └── SETUP.md # Installation instructions  
 
-└── requirements.txt # Python dependencies``
+└── requirements.txt # Python dependencies
