@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 load_dotenv()
 from agents import NewsAgent, TrendsAgent, DataAgent, InsightsAgent, PortfolioAdvisor
-from google.adk import Orchestrator
 
-class StockOrchestrator(Orchestrator):
+
+class StockOrchestrator:
     def __init__(self):
         self.news_agent = NewsAgent()
         self.trends_agent = TrendsAgent()
@@ -11,7 +11,7 @@ class StockOrchestrator(Orchestrator):
         self.insights_agent = InsightsAgent()
         self.portfolio_advisor = PortfolioAdvisor()
         
-    async def full_analysis(self, ticker: str, risk_profile: str) -> dict:
+    def full_analysis(self, ticker: str, risk_profile: str) -> dict:  # Remove async
         return {
             "real_time_data": self.data_agent.get_real_time_data(ticker),
             "news_summary": self.news_agent.get_news_summary(ticker),

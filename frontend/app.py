@@ -20,7 +20,7 @@ def main():
     if st.button("Analyze"):
         with st.spinner("Processing..."):
             start_time = time.time()
-            analysis = orchestrator.full_analysis(ticker, risk_profile)
+            analysis = orchestrator.full_analysis(ticker, risk_profile)  # Already synchronous now
             exec_time = time.time() - start_time
             
             col1, col2 = st.columns(2)
