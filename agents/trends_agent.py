@@ -25,4 +25,17 @@ class TrendsAgent:
 
     def analyze(self, ticker: str) -> dict:
         data = yf.Ticker(ticker).history(period="3mo")
-        return self._calculate_indicators(data)
+        indicators = self._calculate_indicators(data)
+
+        trend_data = data[['Close']].reset_index()
+        trend_data.columns = ['date', 'price']
+        trend_data['date'] = trend_data['date'].dt.strftime('%Y-%m-%d')  # Make it JSON serializable
+
+        return {
+            "prices": trend_data.to_dict(orient="records"),
+            "volatility": round(indicators["volatility"] * 100, 2),
+            "rsi": round(indicators["rsi"], 2),
+            "moving_averages": {
+                k: round(v, 2) for k, v in indicators["moving_averages"].items()
+            }
+        }
