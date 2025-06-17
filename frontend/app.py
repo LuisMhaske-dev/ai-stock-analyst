@@ -14,6 +14,7 @@ def main():
 
     # Sidebar configuration
     with st.sidebar:
+        region = st.selectbox("Region", ["USA", "India", "UK", "Germany", "Japan"])
         st.header("Configuration")
         ticker = st.text_input("Stock Ticker", "AAPL").upper()
         risk_profile = st.selectbox("Risk Profile", ["low", "medium", "high"])
@@ -23,7 +24,7 @@ def main():
     if st.button("Analyze"):
         with st.spinner("Running analysis..."):
             start_time = time.time()
-            analysis = orchestrator.full_analysis(ticker, risk_profile)
+            analysis = orchestrator.full_analysis(ticker, risk_profile, region)
             exec_time = time.time() - start_time
 
             # Two-column layout
@@ -34,17 +35,21 @@ def main():
                     st.write(analysis["real_time_data"])
 
                 with st.expander("📈 Technical Analysis", expanded=True):
-                    # Price trend line chart
                     price_df = pd.DataFrame(analysis["technical_analysis"]["prices"])
-                    st.line_chart(price_df.set_index("date")["price"])
 
-                    # Display RSI and Volatility
-                    st.metric("RSI", f'{analysis["technical_analysis"]["rsi"]}')
-                    st.metric("Volatility", f'{analysis["technical_analysis"]["volatility"]}%')
+                    if not price_df.empty and "date" in price_df.columns:
+                        # Price trend line chart
+                        st.line_chart(price_df.set_index("date")["price"])
 
-                    # Show Moving Averages
-                    st.subheader("Moving Averages")
-                    st.write(analysis["technical_analysis"]["moving_averages"])
+                        # Display RSI and Volatility
+                        st.metric("RSI", f'{analysis["technical_analysis"]["rsi"]}')
+                        st.metric("Volatility", f'{analysis["technical_analysis"]["volatility"]}%')
+
+                        # Show Moving Averages
+                        st.subheader("Moving Averages")
+                        st.write(analysis["technical_analysis"]["moving_averages"])
+                    else:
+                        st.warning("📉 No trend data available for this ticker and region.")
 
             with col2:
                 with st.expander("📰 Latest News", expanded=True):
