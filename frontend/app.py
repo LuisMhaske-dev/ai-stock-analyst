@@ -82,6 +82,10 @@ def display_real_time_data(data: dict):
 def main():
     st.set_page_config(page_title="AI Stock Analyst", layout="wide")
 
+    # 🔹 Project Title & Subtitle
+    st.title("📊 AI Stock Analyst Dashboard")
+    st.caption("Powered by multi-agent AI for real-time stock insights and portfolio strategy.")
+
     # Sidebar configuration
     with st.sidebar:
         region = st.selectbox("Region", ["USA", "India", "UK", "Germany", "Japan"])
@@ -105,7 +109,7 @@ def main():
                             f"⚠️ The stock '{ticker}' appears to be listed under region '{detected_region}', "
                             f"but you selected '{region}'. Please switch the region to '{detected_region}' and try again."
                         )
-                        return  # Stop here — don't proceed with incorrect region
+                        return
                     else:
                         ticker = fallback_ticker
                         region = detected_region
@@ -131,15 +135,11 @@ def main():
                     price_df = pd.DataFrame(analysis["technical_analysis"]["prices"])
                     if not price_df.empty and "date" in price_df.columns:
                         st.line_chart(price_df.set_index("date")["price"])
-
-                        # Real-time indicators
                         st.metric("RSI", f'{analysis["technical_analysis"]["rsi"]}')
                         st.metric("Volatility", f'{analysis["technical_analysis"]["volatility"]}%')
 
-                        # Clean moving average section
                         st.markdown("### 📉 Moving Averages")
                         ma_data = analysis["technical_analysis"].get("moving_averages", {})
-
                         cols = st.columns(len(ma_data) if ma_data else 1)
                         for i, (period, value) in enumerate(ma_data.items()):
                             with cols[i]:
