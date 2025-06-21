@@ -1,17 +1,14 @@
 from newsapi import NewsApiClient
 import os
 
-
 class NewsAgent:
     def __init__(self):
         self.api_key = os.getenv("NEWS_API_KEY")
         self.newsapi = NewsApiClient(api_key=self.api_key)
 
-    def get_news_summary(self, ticker: str, region: str) -> str:
+    def get_news_summary(self, ticker: str, region: str) -> list:
         try:
-            # Add region keyword to make search more targeted
             search_term = f"{ticker} stock {region}"
-
             articles = self.newsapi.get_everything(
                 q=search_term,
                 language='en',
@@ -20,14 +17,21 @@ class NewsAgent:
             )
 
             if not articles['articles']:
-                return "No recent news found."
+                return []
 
-            summaries = []
+            summary_list = []
             for article in articles['articles']:
-                title = str(article.get('title') or 'No Title')
-                description = str(article.get('description') or 'No summary available.')
-                summaries.append(f"- {title}: {description}")
-            return "\n".join(summaries)
+                summary_list.append({
+                    "title": article.get("title", "No Title"),
+                    "summary": article.get("description", "No summary available."),
+                    "link": article.get("url", "")
+                })
+
+            return summary_list
 
         except Exception as e:
-            return f"News unavailable: {str(e)}"
+            return [{
+                "title": "News Fetch Error",
+                "summary": str(e),
+                "link": ""
+            }]
