@@ -9,6 +9,31 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from orchestration.main_adk import StockOrchestrator
 
+
+def interpret_volume(volume):
+    try:
+        volume = int(volume)
+        if volume > 50_000_000:
+            return f"{volume:,} (📈 High)"
+        elif volume > 10_000_000:
+            return f"{volume:,} (↗️ Moderate)"
+        else:
+            return f"{volume:,} (📉 Low)"
+    except (ValueError, TypeError):
+        return "N/A"
+
+
+def display_real_time_data(data: dict):
+    price = data.get("price", "N/A")
+    currency = data.get("currency", "")
+    updated_at = data.get("updated_at", "N/A")
+    volume_raw = data.get("volume", "N/A")
+    volume = interpret_volume(volume_raw)
+
+    st.metric("Price", f"{price} {currency}")
+    st.metric("Volume", volume)
+    st.caption(f"Last updated at: {updated_at}")
+
 def main():
     st.set_page_config(page_title="AI Stock Analyst", layout="wide")
 
@@ -32,7 +57,7 @@ def main():
 
             with col1:
                 with st.expander("📊 Real-Time Data", expanded=True):
-                    st.write(analysis["real_time_data"])
+                    display_real_time_data(analysis["real_time_data"])
 
                 with st.expander("📈 Technical Analysis", expanded=True):
                     price_df = pd.DataFrame(analysis["technical_analysis"]["prices"])

@@ -24,7 +24,9 @@ class NewsAgent:
 
             summaries = []
             for article in articles['articles']:
-                summaries.append(f"- {article['title']}: {article['description'] or 'No summary available.'}")
+                title = str(article.get('title') or 'No Title')
+                description = str(article.get('description') or 'No summary available.')
+                summaries.append(f"- {title}: {description}")
             return "\n".join(summaries)
 
         except Exception as e:
