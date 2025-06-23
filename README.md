@@ -1,4 +1,4 @@
-# ai-stock-analyst
+# Ai Stock Analyst
 AI Stock Analyst Team is a modern, multi-agent web application that leverages advanced artificial intelligence to deliver comprehensive, real-time stock analysis and investment recommendations. The platform integrates specialized AI agents for news aggregation, technical trend analysis, live market data, AI-powered insights, and portfolio advice, collaborating to provide users with clear, actionable intelligence for smarter investing.
 
 Designed for both novice and experienced investors, the app combines real-time news, technical indicators, and the latest AI models (including Gemini 2.5 Pro) in an intuitive dashboard. Users can analyze any stock ticker, explore AI-driven buy/hold/sell recommendations, and receive tailored portfolio suggestions based on their risk profile, all in one seamless experience.
